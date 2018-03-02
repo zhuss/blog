@@ -1,0 +1,13 @@
+//创建数据库 db_blog
+CREATE DATABASE db_blog DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+//创建表 博文
+CREATE TABLE blog(
+    id int primary key auto_increment,
+    title varchar(30),
+    author varchar(20),
+    abstract varchar(250),
+    content text,
+    createTime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updateTime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

@@ -32,7 +32,7 @@ router.get('/get', async (ctx, next) => {
 //更新
 router.post('/update', async (ctx,next) => {
   let blog = ctx.request.body.data;
-  if(blog&&blog.id&&blog.title&&blog.abstract&&blog.content){
+  if(blog&&blog.id&&blog.title&&blog.author&&blog.abstract&&blog.content){
     try {
       await Blog.update(blog,{where:{id:blog.id}});
       ctx.body = {
@@ -87,24 +87,32 @@ router.get('/list', async (ctx, next) => {
 
 //新建
 router.post('/create', async (ctx, next) => {
-     try{
-        await Blog.create({
-          title:"测试",
-          author:"zhuss",
-          abstract:"1231231231231232132",
-          content:"<p>123213</p>"
-        });
-        ctx.body = {
-          code:200,
-          msg:"success"
-        }
-     }catch(error){
+   let blog = ctx.request.body.data;
+   if(blog&&blog.title&&blog.author&&blog.abstract&&blog.content){
+    try{
+      await Blog.create({
+        title:blog.title,
+        author:blog.author,
+        abstract:blog.abstract,
+        content:blog.content
+      });
+      ctx.body = {
+        code:200,
+        msg:"success"
+      }
+    }catch(error){
       console.log(error);
         ctx.body = {
           code:100,
           msg:"系统错误"
         }
-     }
+    }
+   }else{
+    ctx.body = {
+      code:101,
+      msg:"参数验证不通过"
+    }
+  }
 })
 
 module.exports = router

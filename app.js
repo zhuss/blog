@@ -7,7 +7,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const cors = require('koa2-cors')
 
-//const index = require('./routes/index')
+const index = require('./routes/index')
 //const users = require('./routes/users')
 const blog = require('./routes/blog')
 
@@ -37,7 +37,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-//app.use(index.routes(), index.allowedMethods())
+app.use(index.routes(), index.allowedMethods())
 //app.use(users.routes(), users.allowedMethods())
 app.use(blog.routes(), blog.allowedMethods())
 

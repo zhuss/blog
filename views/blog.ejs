@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= data.title %></title>
+  <link rel="shortcut icon" href="http://www.zhushunsheng.com:8080/static/img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    .container{
+      width: 100%;
+      min-height: 100%;
+      max-width: 800px;
+      right: 0;
+      background: #FFF;
+      position: absolute;
+    }
+    .blog{
+  padding: 30px;
+  background: #FFF;
+  min-height: 100%;
+}
+.blog .title{
+  font-size: 20px;
+  margin: 10px 0;
+}
+.blog .author{
+  margin:20px 0;
+}
+.blog .abstract{
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #E6E6E6;
+  padding: 20px;
+  background: #EEE;
+}
+.blog .content{
+  padding: 20px 0;
+}
+    .blog .content p,.blog .content div{
+      margin: 15px 0;
+    }
+    .blog .content img{
+      max-width: 100%;
+      display: inline-block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div class="blog">
+            <h1 class="title"><%= data.title %></h1>
+            <p class="author">文 / <%= data.author%></p>
+            <div class="abstract"><%= data.abstract%></div>
+            <div class="content"><%- data.content %></div>
+          </div>
+    </div>
+</body>
+</html>

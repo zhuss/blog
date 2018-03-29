@@ -4,11 +4,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title><%= title %></title>
+  <title>个人博客</title>
+  <link rel="shortcut icon" href="http://www.zhushunsheng.com:8080/static/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    .container{
+      width: 100%;
+      max-width: 800px;
+      margin-left: auto;
+    }
+    .list{
+      width: 100%;
+    }
+    .list .item{
+      display: block;
+      text-decoration: none;
+      width: 100%;
+      background: #FFF;
+      margin: 20px 0;
+      padding: 30px;
+      cursor: pointer;
+      transition: .2s all;
+      transform:translateX(0);
+      box-sizing: border-box;
+      box-shadow: 0 0 2px rgba(0, 0, 0, .1);
+    }
+    .list .item:hover{
+      transform:translateX(-10px);
+      box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+    }
+    .list .item .item-title{
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .list .item .item-author{
+      margin-top: 10px;
+      color: #333;
+    }
+
+    .list .item .item-abstract{
+       margin-top: 10px;
+       font-size: 16px;
+       color: #000;
+    }
+    .page{
+      background: #FFF;
+      box-shadow: 0 0 2px rgba(0, 0, 0, .1);
+      text-align: center;
+      display: flex;
+    }
+    .page a,span{
+      flex: 1;
+      display: inline-block;
+      padding:10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-  <h1><%= title %></h1>
-  <p>Welcome to <%= title %></p>
+  <div class="container">
+      <div class="list">
+        <% for( var i=0; i < data.rows.length; i++){ %>
+        <a class="item" href="/<%= data.rows[i].id %>">
+            <h2 class="item-title"><%= data.rows[i].title %></h2>
+            <p class="item-author">文 / <%= data.rows[i].author %></p>
+            <p class="item-abstract"><%= data.rows[i].abstract %></p>
+        </a>
+        <% } %>
+      </div>
+      <div class="page">
+        <% if(pageNo>1){%>
+          <a href="?pageNo=<%= pageNo-1 %>">前一页</a>
+        <%}else{%>
+          <a href="javajscrpt:;">前一页</a>
+        <%}%>
+        <span><%= pageNo %></span>
+        <% if(Math.ceil(data.count/pageCount)>pageNo){ %>
+          <a href="?pageNo=<%= pageNo+1 %>">后一页</a>
+        <%}else{%>
+          <a href="javajscrpt:;">后一页</a>
+        <%}%>
+      </div>
+  </div>
 </body>
 </html>

@@ -11,26 +11,28 @@
     .container{
       width: 100%;
       max-width: 800px;
-      margin-left: auto;
+      margin: 0 auto;
+      padding-bottom: 30px;
     }
     .list{
       width: 100%;
+      padding-top: 30px;
+    }
+    .list .item+.item{
+      margin-top: 30px;
     }
     .list .item{
       display: block;
       text-decoration: none;
       width: 100%;
       background: #FFF;
-      margin: 20px 0;
       padding: 30px;
       cursor: pointer;
       transition: .2s all;
-      transform:translateX(0);
       box-sizing: border-box;
-      box-shadow: 0 0 2px rgba(0, 0, 0, .1);
+      
     }
     .list .item:hover{
-      transform:translateX(-10px);
       box-shadow: 0 0 3px rgba(0, 0, 0, .2);
     }
     .list .item .item-title{
@@ -48,6 +50,7 @@
        color: #000;
     }
     .page{
+      margin-top: 30px;
       background: #FFF;
       box-shadow: 0 0 2px rgba(0, 0, 0, .1);
       text-align: center;
@@ -75,15 +78,15 @@
       </div>
       <div class="page">
         <% if(pageNo>1){%>
-          <a href="?pageNo=<%= pageNo-1 %>">前一页</a>
+          <a href="?pageNo=<%= pageNo-1 %>">＜ PREV</a>
         <%}else{%>
-          <a href="javajscrpt:;">前一页</a>
+          <span>＜ PREV</span>
         <%}%>
-        <span><%= pageNo %></span>
+        <span><%= pageNo %> / <%= Math.ceil(data.count/pageCount) %></span>
         <% if(Math.ceil(data.count/pageCount)>pageNo){ %>
-          <a href="?pageNo=<%= pageNo+1 %>">后一页</a>
+          <a href="?pageNo=<%= pageNo+1 %>">NEXT ＞</a>
         <%}else{%>
-          <a href="javajscrpt:;">后一页</a>
+          <span>NEXT ＞</a>
         <%}%>
       </div>
   </div>

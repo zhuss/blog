@@ -7,7 +7,7 @@ router.prefix('/comments')
 //新建
 router.post('/create', async (ctx, next) => {
     let comments = ctx.request.body.data;
-    if(comments&&comments.blogid&&blog.content){
+    if(comments&&comments.blogid&&comments.content){
      try{
        await Comments.create({
          blogid:comments.blogid,

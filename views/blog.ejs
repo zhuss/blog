@@ -54,6 +54,71 @@
       overflow: auto;
       border:1px solid #CCC;
     }
+    .comments{
+      border-top:1px solid #EEE;
+      padding: 30px;
+    }
+    .comments .comments-title{
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .comments .comments-textarea{
+      width: 100%;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .comments-textarea textarea{
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #CCC;
+      background: #FFF;
+      box-sizing: border-box;
+      font-size: 16px;
+      line-height: 26px;
+      outline: none;
+    }
+    .comments-textarea button{
+      height: 40px;
+      padding: 0 30px;
+      box-sizing: border-box;
+      background: #FFF;
+      border: 1px solid #E6E6E6;
+      cursor: pointer;
+      float: right;
+      outline: none;
+      color: #000;
+      font-weight: bold;
+    }
+    .comments .comments-item{
+      margin-top:30px;
+      padding: 30px;
+      border: 1px solid #EEE;
+    }
+    .comments-item .comments-time{
+        font-size: 14px;
+        color: #CCC;
+    }
+    .comments-item .comments-content{
+        margin-top: 10px;
+        font-size: 16px;
+    }
+    .pagination{
+      padding-bottom: 40px;
+      text-align: center; 
+    }
+    .pagination button{
+      width: 100px;
+      height: 40px;
+      border: 1px solid #E6E6E6;
+      font-size: 16px;
+      cursor: pointer;
+      outline: none;
+    }
+    .pagination span{
+      padding:0 30px;
+    }
   </style>
 </head>
 <body>
@@ -64,6 +129,125 @@
             <div class="abstract"><%= data.abstract%></div>
             <div class="content"><%- data.content %></div>
           </div>
+        <div class="comments">
+          <div class="comments-title">随手评论</div>
+          <div class="comments-textarea">
+            <textarea id="textarea" style="resize:none;" placeholder="这里输入内容"></textarea>
+            <button id="addBtn" type="button">来一句</button>
+          </div>
+          <div id="commentBody">
+          </div>
+        </div>
+        <div class="pagination">
+          <button id="prev">＜ PREV</button>
+          <span id="pageNo"></span>
+          <button id="next">NEXT ＞</button>
+        </div>
     </div>
+    <script src="/javascripts/jquery.3.3.1.min.js"></script>
+    <script>
+      $(function(){
+        var textarea = $("#textarea");
+        var commentBody = $("#commentBody");
+        var blogid = '<%=data.id%>';
+        var pageNo = 1;
+        var pageCount = 10;
+        var prev =  $("#prev");
+        var next = $("#next");
+        var page = $("#pageNo");
+
+        var  getCommentList = function(){
+          $.ajax({
+               type:'GET',
+               url:'/comments/list',
+               data:{
+                pageCount:pageCount,
+                pageNo:pageNo,
+                blogid:blogid
+               },
+               success:function(res){
+                 if(res.code == 200){
+                   //console.log(res);
+                   CommentsTemp(res.data);
+                 }else{
+                   console.log("系统出错了");
+                 }
+               }
+            })
+        }
+        getCommentList();//获取评论数据
+
+        prev.click(function(){
+          pageNo--;
+          getCommentList();//获取评论数据
+        })
+
+        next.click(function(){
+          pageNo++;
+          getCommentList();//获取评论数据
+        })
+
+        var CommentsTemp = function(data){
+            var rows = data.rows;
+            var count = data.count;
+            var pageAll = Math.ceil(count/pageCount);
+            var html = '';
+            for(var i = 0; i < rows.length; i++){
+              html+='<div class="comments-item">'
+                      +'<p class="comments-time">'+rows[i].createdAt+'</p>'
+                      +'<p class="comments-content">'+rows[i].content+'</p>'
+                    +'</div>';
+            }
+            commentBody.html(html);
+            //渲染上下页
+            if(pageNo <= 1){
+              prev.attr('disabled',true);
+            }else{
+              prev.removeAttr('disabled');
+            }
+            
+            page.text(pageNo);
+
+            if(pageNo >= pageAll){
+              next.attr('disabled',true);
+            }else{
+              next.removeAttr('disabled');
+            }
+        }
+
+
+        //点击添加评论按钮
+        $('#addBtn').click(function(){
+           let content = textarea.val();
+           if(content!=''){
+            addComment(content);
+           }else{
+             alert("请输入评论内容");
+           }
+         });
+         //添加评论
+         var addComment = function(content){
+            $.ajax({
+               type:'POST',
+               url:'/comments/create',
+               data:{
+                 data:{
+                  blogid:blogid,
+                  content:content
+                 }
+               },
+               success:function(res){
+                 if(res.code == 200){
+                  textarea.val("");
+                  pageNo =1;
+                  getCommentList();
+                 }else{
+                   console.log("系统出错了");
+                 }
+               }
+            })
+         }
+      });
+    </script>
 </body>
 </html>

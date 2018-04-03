@@ -15,7 +15,6 @@ let sequelize = new Sequelize(config.database,
         },
         timezone: '+08:00' //东八时区
     });
-    //sequelize.sync();
 module.exports = sequelize
 
 

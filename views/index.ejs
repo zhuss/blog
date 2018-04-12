@@ -37,11 +37,11 @@
     }
     .list .item .item-title{
       font-weight: bold;
-      font-size: 20px;
+      font-size: 24px;
     }
     .list .item .item-author{
       margin-top: 10px;
-      color: #333;
+      color: #666;
     }
 
     .list .item .item-abstract{
@@ -59,9 +59,14 @@
     .page a,span{
       flex: 1;
       display: inline-block;
-      padding:10px;
+      padding:15px;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 16px;
+      color: #42b983;
+    }
+    .page .page-span{
+       opacity: .5;
+       cursor: pointer;
     }
   </style>
 </head>
@@ -80,13 +85,13 @@
         <% if(pageNo>1){%>
           <a href="?pageNo=<%= pageNo-1 %>">＜ PREV</a>
         <%}else{%>
-          <span>＜ PREV</span>
+          <span class="page-span">＜ PREV</span>
         <%}%>
         <span><%= pageNo %> / <%= Math.ceil(data.count/pageCount) %></span>
         <% if(Math.ceil(data.count/pageCount)>pageNo){ %>
           <a href="?pageNo=<%= pageNo+1 %>">NEXT ＞</a>
         <%}else{%>
-          <span>NEXT ＞</a>
+          <span class="page-span">NEXT ＞</span>
         <%}%>
       </div>
   </div>

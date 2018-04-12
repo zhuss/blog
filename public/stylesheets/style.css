@@ -18,3 +18,8 @@ body{
 a {
   color: #42b983;
 }
+
+input,button,textarea{
+  -webkit-appearance: none;
+  border-radius: 0;
+}
